@@ -23,6 +23,6 @@
         </jar>
     </target>
 
-    <target name="main" depends="clean,runServer"/>
+    <target name="main" depends="clean"/>
 
 </project>
