@@ -9,6 +9,10 @@ public class AppStoreServer implements IAppStoreServer {
 	public AppStoreServer() {
 		super();
 	}
+
+	public int status() throws Exception {
+		throw new Exception("Not implemented");
+	}
 	
 	public int start() throws Exception {
 		throw new Exception("Not implemented");
