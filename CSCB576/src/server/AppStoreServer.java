@@ -6,6 +6,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class AppStoreServer implements IAppStoreServer {
 	
+	private ServerState status;
+
 	public AppStoreServer() {
 		super();
 	}
