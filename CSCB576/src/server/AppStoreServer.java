@@ -6,34 +6,55 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class AppStoreServer implements IAppStoreServer {
 	
-	private ServerState status;
+	private ServerState state;
 
 	public AppStoreServer() {
 		super();
+
+		// Put the server in default state;
+		this.state = ServerState.STOPPED;
 	}
 
-	public int status() throws Exception {
-		throw new Exception("Not implemented");
+	public ServerOperationResult status() throws Exception {
+		switch(this.state){
+			case STARTED: return ServerOperationResult.SERVER_STATE_STARTED;
+			case PAUSED:  return ServerOperationResult.SERVER_STATE_PAUSED;
+			default:      return ServerOperationResult.SERVER_STATE_STOPPED;
+		}
 	}
 	
-	public int start() throws Exception {
-		throw new Exception("Not implemented");
+	public ServerOperationResult start() throws Exception {
+		if(this.state.possibleFollowUps().contains(ServerState.STARTED)){
+			this.state = ServerState.STARTED;
+			return ServerOperationResult.SERVER_STARTED;
+		} else {
+			return ServerOperationResult.SERVER_OPERATION_NOT_POSSIBLE;
+		}
 	}
 	
-	public int stop() throws Exception {
-		throw new Exception("Not implemented");
+	public ServerOperationResult stop() throws Exception {
+		if(this.state.possibleFollowUps().contains(ServerState.STOPPED)){
+			this.state = ServerState.STOPPED;
+			return ServerOperationResult.SERVER_STOPPED;
+		} else {
+			return ServerOperationResult.SERVER_OPERATION_NOT_POSSIBLE;
+		}
 	}
 	
-	public int restart() throws Exception {
-		throw new Exception("Not implemented");
+	public ServerOperationResult restart() throws Exception {
+		stop();
+		start();
+
+		return ServerOperationResult.SERVER_RESTARTED;
 	}
 	
-	public int pause() throws Exception {
-		throw new Exception("Not implemented");
-	}
-	
-	public int resume() throws Exception {
-		throw new Exception("Not implemented");
+	public ServerOperationResult pause() throws Exception {
+		if(this.state.possibleFollowUps().contains(ServerState.PAUSED)){
+			this.state = ServerState.PAUSED;
+			return ServerOperationResult.SERVER_PAUSED;
+		} else {
+			return ServerOperationResult.SERVER_OPERATION_NOT_POSSIBLE;
+		}
 	}
 
 	public static void main(String[] args) {

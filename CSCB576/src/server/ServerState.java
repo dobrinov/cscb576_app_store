@@ -22,7 +22,7 @@ public enum ServerState {
 	PAUSED {
 		@Override
 		public Set<ServerState> possibleFollowUps() {
-		    return EnumSet.of(STARTED);
+		    return EnumSet.of(STOPPED, STARTED);
 		}
 	};
 	
