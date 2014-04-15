@@ -37,7 +37,6 @@ public class Application extends JFrame {
 	private IAppStoreServer appStoreServer;
 
 	public Application() {
-		setResizable(false);
 		initializeRmi();
 		initializeUi();
 		initializeServerStateChecker();
@@ -112,6 +111,8 @@ public class Application extends JFrame {
 
 	private void initializeUi() {
 		setTitle("AppStore Administration");
+		setResizable(false);
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 428, 212);
 		contentPane = new JPanel();
