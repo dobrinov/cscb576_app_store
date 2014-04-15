@@ -37,6 +37,7 @@ public class Application extends JFrame {
 	private IAppStoreServer appStoreServer;
 
 	public Application() {
+		setResizable(false);
 		initializeRmi();
 		initializeUi();
 		initializeServerStateChecker();
