@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 
@@ -18,7 +17,6 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
 import server.IAppStoreServer;
-import server.ServerOperationResult;
 import server.ServerState;
 
 import java.awt.event.ActionListener;
@@ -218,7 +216,7 @@ public class Application extends JFrame {
 	
 	public void startServer(){
 		try {
-			ServerOperationResult response = appStoreServer.start();
+			appStoreServer.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -226,7 +224,7 @@ public class Application extends JFrame {
 	
 	public void stopServer(){
 		try {
-			ServerOperationResult response = appStoreServer.stop();
+			appStoreServer.stop();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -234,7 +232,7 @@ public class Application extends JFrame {
 	
 	public void pauseServer(){
 		try {
-			ServerOperationResult response = appStoreServer.pause();
+			appStoreServer.pause();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
