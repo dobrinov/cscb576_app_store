@@ -24,6 +24,13 @@ public enum ServerState {
 		public Set<ServerState> possibleFollowUps() {
 		    return EnumSet.of(STOPPED, STARTED);
 		}
+	},
+
+	UNKNOWN {
+		@Override
+		public Set<ServerState> possibleFollowUps() {
+		    return EnumSet.of(STOPPED, PAUSED, STARTED);
+		}
 	};
 	
 	public Set<ServerState> possibleFollowUps() {

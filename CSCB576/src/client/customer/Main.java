@@ -5,6 +5,7 @@ import java.rmi.registry.Registry;
 
 import server.IAppStoreServer;
 import server.ServerOperationResult;
+import server.ServerState;
 
 public class Main {
 
@@ -17,20 +18,23 @@ public class Main {
             String name = "AppStore";
             Registry registry = LocateRegistry.getRegistry(args[0]);
             IAppStoreServer comp = (IAppStoreServer) registry.lookup(name);
-            ServerOperationResult status = comp.status();
-            System.out.println(status.statusMessage());
-            status = comp.start();
-            System.out.println(status.statusMessage());
-            status = comp.pause();
-            System.out.println(status.statusMessage());
-            status = comp.start();
-            System.out.println(status.statusMessage());
-            status = comp.restart();
-            System.out.println(status.statusMessage());
-            status = comp.start();
-            System.out.println(status.statusMessage());
-            status = comp.stop();
-            System.out.println(status.statusMessage());
+            ServerState status;
+            ServerOperationResult result;
+
+            status = comp.status();
+            System.out.println(status);
+            result = comp.start();
+            System.out.println(result.statusMessage());
+            result = comp.pause();
+            System.out.println(result.statusMessage());
+            result = comp.start();
+            System.out.println(result.statusMessage());
+            result = comp.restart();
+            System.out.println(result.statusMessage());
+            result = comp.start();
+            System.out.println(result.statusMessage());
+            result = comp.stop();
+            System.out.println(result.statusMessage());
         } catch (Exception e) {
             System.err.println("AppServer exception:");
             e.printStackTrace();

@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface IAppStoreServer extends Remote {
-	ServerOperationResult status()  throws RemoteException, Exception;
+	ServerState           status()  throws RemoteException, Exception;
 	ServerOperationResult start()   throws RemoteException, Exception;
 	ServerOperationResult stop()    throws RemoteException, Exception;
 	ServerOperationResult restart() throws RemoteException, Exception;

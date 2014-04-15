@@ -15,12 +15,8 @@ public class AppStoreServer implements IAppStoreServer {
 		this.state = ServerState.STOPPED;
 	}
 
-	public ServerOperationResult status() throws Exception {
-		switch(this.state){
-			case STARTED: return ServerOperationResult.SERVER_STATE_STARTED;
-			case PAUSED:  return ServerOperationResult.SERVER_STATE_PAUSED;
-			default:      return ServerOperationResult.SERVER_STATE_STOPPED;
-		}
+	public ServerState status() throws Exception {
+		return this.state;
 	}
 	
 	public ServerOperationResult start() throws Exception {
