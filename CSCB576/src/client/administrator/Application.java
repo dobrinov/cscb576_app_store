@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
 
@@ -19,6 +20,9 @@ import java.rmi.registry.Registry;
 import server.IAppStoreServer;
 import server.ServerOperationResult;
 import server.ServerState;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Application extends JFrame {
 
@@ -45,15 +49,27 @@ public class Application extends JFrame {
 		
 		switch (serverState) {
 		case STARTED:
+			btnStart.setEnabled(false);
+			btnStop.setEnabled(true);
+			btnPause.setEnabled(true);
 			newLblServerState = "The server is running.";
 			break;
 		case STOPPED:
+			btnStart.setEnabled(true);
+			btnStop.setEnabled(false);
+			btnPause.setEnabled(false);
 			newLblServerState = "The server is stopped.";
 			break;
 		case PAUSED:
+			btnStart.setEnabled(true);
+			btnStop.setEnabled(true);
+			btnPause.setEnabled(false);
 			newLblServerState = "The server is paused.";
 			break;
 		case UNKNOWN:
+			btnStart.setEnabled(false);
+			btnStop.setEnabled(false);
+			btnPause.setEnabled(false);
 			newLblServerState = "Cannot obtain server state.";
 			break;
 		default:
@@ -104,10 +120,25 @@ public class Application extends JFrame {
 		setContentPane(contentPane);
 
 		btnStart = new JButton("Start");
+		btnStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				startServer();
+			}
+		});
 		btnStart.setToolTipText("Start the server");
 		btnPause = new JButton("Pause");
+		btnPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pauseServer();
+			}
+		});
 		btnPause.setToolTipText("Pause the server");
 		btnStop = new JButton("Stop");
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stopServer();
+			}
+		});
 		btnStop.setToolTipText("Stop the server");
 		lblServerState = new JLabel("Loading server state ...");
 
@@ -183,6 +214,30 @@ public class Application extends JFrame {
 												GroupLayout.DEFAULT_SIZE,
 												Short.MAX_VALUE)));
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	public void startServer(){
+		try {
+			ServerOperationResult response = appStoreServer.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void stopServer(){
+		try {
+			ServerOperationResult response = appStoreServer.stop();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void pauseServer(){
+		try {
+			ServerOperationResult response = appStoreServer.pause();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
