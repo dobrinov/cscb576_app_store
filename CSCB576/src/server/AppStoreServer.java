@@ -1,8 +1,13 @@
 package server;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
 public class AppStoreServer implements IAppStoreServer {
 	
@@ -16,13 +21,36 @@ public class AppStoreServer implements IAppStoreServer {
 	}
 
 	public String[][] getApplicationList() {
-		String[][] applications = new String[1][3];
+		ArrayList<String[]> applications = new ArrayList<String[]>();
+		
+		String csvFile = "src/applications.db";
+		BufferedReader br = null;
+		String line = "";
+		String cvsSplitBy = ",";
+	 
+		try {
+	 
+			br = new BufferedReader(new FileReader(csvFile));
+			while ((line = br.readLine()) != null) {
+				String[] application = line.split(cvsSplitBy);
+				applications.add(application);
+			}
+	 
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
-		applications[0][0] = "a";
-		applications[0][1] = "b";
-		applications[0][2] = "c";
-
-		return applications;
+		return applications.toArray(new String[applications.size()][3]);
 	}
 
 	public ServerState status() throws Exception {
