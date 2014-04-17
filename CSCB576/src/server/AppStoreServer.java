@@ -15,6 +15,16 @@ public class AppStoreServer implements IAppStoreServer {
 		this.state = ServerState.STOPPED;
 	}
 
+	public String[][] getApplicationList() {
+		String[][] applications = new String[1][3];
+
+		applications[0][0] = "a";
+		applications[0][1] = "b";
+		applications[0][2] = "c";
+
+		return applications;
+	}
+
 	public ServerState status() throws Exception {
 		return this.state;
 	}

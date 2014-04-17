@@ -3,14 +3,15 @@ package client.customer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SpringLayout;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -22,7 +23,10 @@ public class Application extends JFrame {
 	private ScheduledExecutorService serverStateChecker;
 
 	private JPanel contentPane;
+	private JScrollPane appTableScrollPane;
 	private JTable appTable;
+	private DefaultTableModel appTableModel;
+	String APP_TABLE_COLUMN_TITLES[] = {"Name", "Genre", "Description"};
 	private JLabel lblServerState;
 	
 	private Registry registry;
@@ -40,6 +44,7 @@ public class Application extends JFrame {
 		
 		switch (serverState) {
 		case STARTED:
+			getApplicationList();
 			newLblServerState = "The server is running.";
 			break;
 		case STOPPED:
@@ -101,15 +106,45 @@ public class Application extends JFrame {
 		SpringLayout sl_contentPane = new SpringLayout();
 		contentPane.setLayout(sl_contentPane);
 		
-		appTable = new JTable();
+		appTableModel = new DefaultTableModel(APP_TABLE_COLUMN_TITLES,0);
+		appTable = new JTable(appTableModel);
+		appTable.setFillsViewportHeight(true);
+		appTable.setColumnSelectionAllowed(true);
+		appTable.setSurrendersFocusOnKeystroke(true);
+		appTable.setEnabled(false);
+
 		sl_contentPane.putConstraint(SpringLayout.NORTH, appTable, 10, SpringLayout.NORTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.WEST, appTable, 222, SpringLayout.WEST, contentPane);
-		appTable.setShowVerticalLines(false);
-		contentPane.add(appTable);
+		sl_contentPane.putConstraint(SpringLayout.EAST, appTable, -10, SpringLayout.EAST, contentPane);
+		appTableScrollPane = new JScrollPane(appTable);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, appTableScrollPane, 0, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, appTableScrollPane, 0, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, appTableScrollPane, 0, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, appTableScrollPane, 0, SpringLayout.EAST, contentPane);
+		contentPane.add(appTableScrollPane);
 		
 		lblServerState = new JLabel("Loading server state ...");
+		sl_contentPane.putConstraint(SpringLayout.WEST, appTable, 0, SpringLayout.WEST, lblServerState);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, appTable, -6, SpringLayout.NORTH, lblServerState);
 		sl_contentPane.putConstraint(SpringLayout.WEST, lblServerState, 10, SpringLayout.WEST, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, lblServerState, -10, SpringLayout.SOUTH, contentPane);
 		contentPane.add(lblServerState);
+	}
+
+	private void getApplicationList(){
+		try {
+			String applications[][] = appStoreServer.getApplicationList();
+
+			appTableModel.setRowCount(applications.length);
+
+			for(int i=0; i<applications.length; i++){
+				for(int j=0; j<applications[0].length; j++){
+					appTable.setValueAt(applications[i][j],i,j);
+				}
+			}
+
+			appTableModel.fireTableDataChanged();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
