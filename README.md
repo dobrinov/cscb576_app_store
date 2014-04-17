@@ -4,15 +4,15 @@
 2. Installation instructions
 3. Starting the server
 4. Operating
-	4.1 Administration client
-		4.1.1 Starting the application
-		4.1.2 Starting the server
-		4.1.3 Stopping the server
-		4.1.4 Pausing the server
-		4.1.5 Adding new applications
-	4.2 Customer client
-		4.2.1 Starting the appplication
-		4.2.2 Downloading applications
+4.1 Administration client
+4.1.1 Starting the application
+4.1.2 Starting the server
+4.1.3 Stopping the server
+4.1.4 Pausing the server
+4.1.5 Adding new applications
+4.2 Customer client
+4.2.1 Starting the appplication
+4.2.2 Downloading applications
 
 ## Description ##
 This is a simple course work in Java aiming to demonstrate knowledge over Java RMI. It consist of three separate programes comunicating through RMI: Application store server, Application store administration client, Application store end customer client.
